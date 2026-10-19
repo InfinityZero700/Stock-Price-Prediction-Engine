@@ -110,6 +110,13 @@ I built the original modeling work in a University of Washington summer course, 
 - Add error metrics (MAE/RMSE) and rolling backtests.
 - Revisit periodic volume fitting and determine whether it provides useful predictive information.
 
+## Author & Contact
+
+**Akshat Milan**
+- **GitHub:** [@InfinityZero700](https://github.com/InfinityZero700)
+- **Focus:** Applied Mathematics & Computer Science | Quantitative Analytics & ML
+- **Repository:** [Stock-Price-Prediction-Engine](https://github.com/InfinityZero700/Stock-Price-Prediction-Engine)
+  
 ## Disclaimer
 
 For education and exploration only. Stock prices are unpredictable, and historical relationships may not hold in the future.
