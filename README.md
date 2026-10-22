@@ -103,12 +103,44 @@ python -m unittest discover -s tests -v
 
 I built the original modeling work in a University of Washington summer course, using Python to investigate historical NVIDIA trading patterns, visualize returns, and experiment with curve fitting and short-range forecasts. This repository is a cleaned, standalone version of that educational work with portable file paths and a command-line interface.
 
-## Future improvements
+## Pipeline & Verification
 
-- Evaluate forecasts on a held-out chronological test period.
-- Compare with simple naive forecasts, such as predicting no daily change.
-- Add error metrics (MAE/RMSE) and rolling backtests.
-- Revisit periodic volume fitting and determine whether it provides useful predictive information.
+The engine runs a multi-stage quantitative pipeline from raw CSV ingestion through to recursive extrapolation.
+
+### Pipeline Architecture
+
+[Raw Market CSV]
+       │
+       ▼
+1. Data Sanitization & Normalization
+   • Strips currency symbols & handles missing fields
+   • Resolves column aliases (Close vs. Close/Last)
+       │
+       ▼
+2. Metric Computation & Statistical Profiling
+   • Calculates midpoint price: P[t] = (High[t] + Low[t]) / 2
+   • Generates intraday ranges & daily return distributions
+       │
+       ▼
+3. Non-Linear Parameter Optimization
+   • Fits P[t] ≈ m * P[t-1] + c via SciPy curve_fit
+       │
+       ▼
+4. Recursive Trajectory Forecasting
+   • Extrapolates n-day horizon from terminal state P[0]
+   • Logs cumulative recursive estimation drift
+       │
+       ▼
+5. Output Serialization
+   • Exports forecast tabular CSV & 3 diagnostic plots to outputs/
+   
+## Testing
+
+1. Run unit test suite
+python -m unittest discover -s tests -v
+
+2. Execute full modeling pipeline (10-day forecast horizon)
+python stock_predictor.py --data data/nvidia.csv --days 10
 
 ## Author & Contact
 
